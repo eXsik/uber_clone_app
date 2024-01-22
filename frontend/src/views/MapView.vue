@@ -1,4 +1,5 @@
 <script setup>
+import http from '@/helpers/http';
 import { useLocationStore } from '@/stores/location';
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';

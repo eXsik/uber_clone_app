@@ -1,6 +1,8 @@
+import axios from "axios";
+
 const http = () => {
     let options = {
-        baseUrl: 'http://localhost',
+        baseURL: 'http://localhost',
         headers: {}
     };
 
@@ -8,7 +10,8 @@ const http = () => {
         options.headers.Authorization = `Bearer ${localStorage.getItem('token')}`;
     }
 
-    return axios.create();
+    return axios.create(options);
 };
 
 export default http;
+
