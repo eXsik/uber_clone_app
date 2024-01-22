@@ -1,0 +1,54 @@
+<script setup>
+import { useLocationStore } from '@/stores/location';
+import { useRouter } from 'vue-router';
+
+const location = useLocationStore();
+const router = useRouter();
+
+const handleLocationChanged = (event) => {
+  console.log('handleLocationChanged', event);
+  location.$patch({
+    destination: {
+      name: event.name,
+      address: event.formatted_address,
+      geometry: {
+        lat: event.geometry.location.lat(),
+        lng: event.geometry.location.lng()
+      }
+    }
+  });
+};
+
+const handleSelectLocation = () => {
+  if (location.destination.name !== '') {
+    router.push({
+      name: 'map'
+    });
+  }
+};
+
+</script>
+
+<template>
+   <div class="pt-16">
+    <h1 class="text-3xl font-semibold mb-4">
+      Uber Clone
+    </h1>
+    <form action="#" @click.prevent="handleSelectLocation">
+      <div class="overflow-hidden shadow sm:rounded-md max-w-sm mx-auto text-left">
+        <div class="bg-white px-4 pt-5 sm:px-6">
+          <div>
+            <GMapAutocomplete @place_changed="handleLocationChanged" name="destination" id="destination"
+              placeholder="Your destination"
+              class="mt-1 block w-full px-3 py-2 rounded-md border border-gray-300 shadow-sm focus:border-black focus:outline-none"></GMapAutocomplete>
+          </div>
+        </div>
+        <div class="bg-gray-50 px-4 py-3 text-right sm:px-6"> 
+            <button @click.prevent="handleSelectLocation" type="button" class="inline-flex justify-center rounded-md border border-transparent bg-black py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-gray-600 focus:outline-none">
+              Find A Ride
+            </button>
+          </div>
+      </div>
+    </form>
+  </div>
+</template>
