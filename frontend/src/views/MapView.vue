@@ -1,10 +1,13 @@
 <script setup>
 import http from '@/helpers/http';
 import { useLocationStore } from '@/stores/location';
+import { useTripStore } from '@/stores/trip';
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 const location = useLocationStore();
+const trip = useTripStore();
+
 const router = useRouter();
 const gMap = ref(null);
 
@@ -14,7 +17,8 @@ const handleConfirmTrip = () => {
     destination: location.destination.geometry,
     destination_name: location.destination.name,
   }).then((response) => {
-    console.log('response', response);
+    trip.$patch(response.data);
+    console.log('mapview', response.data)
     router.push({
       name: 'trip'
     });
